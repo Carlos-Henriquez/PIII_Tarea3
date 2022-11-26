@@ -34,7 +34,40 @@ if (is_dir("DB") == false) {
             </tr>
         </thead>
         <tbody>
+        <?php
+            if (is_dir("DB")) {
+                $archivos = scandir("DB");
 
+                foreach ($archivos as $archivo) {
+                    if ($archivo != "." && $archivo != "..") {
+                        $json = file_get_contents("DB/" . $archivo);
+                        $datos = json_decode($json);
+                        echo <<<TABLA
+                            <tr>
+                                <td>{$datos->cedula}</td>
+                                <td>|</td>
+                                <td>{$datos->nombre}</td>
+                                <td>|</td>
+                                <td>{$datos->fecha}</td>
+                                <td>|</td>
+                                <td>{$datos->robo}</td>
+                                <td>|</td>
+                                <td>RD$ {$datos->valor_perdido}</td>
+                                <td>|</td>
+                                <td>{$datos->donde_ocurrio}</td>
+                                <td>|</td>
+                                <td>{$datos->latitud}</td>
+                                <td>{$datos->longitud}</td>
+                                <td>|</td>
+                                <td>
+                                    <a class="btn" href="informe.php?informe={$archivo}">Imprimir</a>
+                                </td>
+                            </tr>
+                        TABLA;
+                    }
+                }
+            }
+            ?>
         </tbody>
     </table>
 </div>
