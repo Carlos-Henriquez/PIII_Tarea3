@@ -1,6 +1,18 @@
 <?php
 require("Template/plantilla.php");
 plantilla::aplicar();
+
+if ($_POST) {
+    if (is_dir("DB") == false) {
+        mkdir("DB");
+    }
+
+    $json = json_encode($_POST);
+
+    file_put_contents("DB/" . rand(1, 999999999) . ".json", $json);
+
+    header("Location: index.php");
+}
 ?>
 
 <title>Agregar - Robos RD</title>
