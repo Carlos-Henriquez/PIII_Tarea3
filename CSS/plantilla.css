@@ -20,6 +20,12 @@ nav {
     background-color: #023877;
 }
 
+@media print {
+    .no-print {
+        display: none;
+    }
+}
+
 /*
 Carlos Henriquez
 2020-10203
