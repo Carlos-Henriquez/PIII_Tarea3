@@ -13,7 +13,28 @@ plantilla::aplicar();
             maxZoom: 19
         }).addTo(map);
     </script>
-    
+
+    <?php
+    if (is_dir("DB")) {
+        $dir = scandir("DB");
+
+        foreach ($dir as $archivo) {
+            $posible = "DB/{$archivo}";
+
+            if (is_file($posible)) {
+                $tmp = file_get_contents($posible);
+                $tmp = json_decode($tmp);
+
+                echo <<<MARCADOR
+                    <script>
+                        var marker = L.marker([{$tmp->latitud}, {$tmp->longitud}]).addTo(map)
+                        .bindPopup("<b>Fecha:</b><br> {$tmp->fecha}<br> <b>¿Qué se robaron?</b><br> {$tmp->robo}<br> <b>Valor perdido:</b><br> RD$ {$tmp->valor_perdido}<br> <a href='informe.php?informe={$archivo}'>Imprimir</a>")
+                    </script>
+                MARCADOR;
+            }
+        }
+    }
+    ?>
 </div>
 
 <?php
